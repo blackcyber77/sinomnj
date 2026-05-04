@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\StoreLeaderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function (): void {
         Route::patch('/validations/kpi/{entry}', [OwnerController::class, 'validateKpi'])->name('validations.kpi');
 
         Route::get('/finance', [OwnerController::class, 'financeReport'])->name('finance');
+        Route::get('/sales-analytics', [OwnerController::class, 'salesAnalytics'])->name('sales-analytics');
+        Route::get('/menu-variants', [OwnerController::class, 'menuVariantsIndex'])->name('menu-variants.index');
+        Route::post('/menu-variants', [OwnerController::class, 'menuVariantsStore'])->name('menu-variants.store');
+        Route::delete('/menu-variants/{variant}', [OwnerController::class, 'menuVariantsDelete'])->name('menu-variants.delete');
 
         Route::get('/payroll', [OwnerController::class, 'payrollIndex'])->name('payroll.index');
         Route::post('/payroll/generate', [OwnerController::class, 'payrollGenerate'])->name('payroll.generate');
@@ -50,5 +55,9 @@ Route::middleware('auth')->group(function (): void {
 
         Route::get('/kpi', [StaffController::class, 'kpi'])->name('kpi');
         Route::post('/kpi', [StaffController::class, 'kpiStore'])->name('kpi.store');
+
+        Route::get('/store-leader', [StoreLeaderController::class, 'index'])->name('store-leader');
+        Route::post('/store-leader/quantities', [StoreLeaderController::class, 'quantitiesUpsert'])->name('store-leader.quantities');
+        Route::delete('/store-leader/items/{item}', [StoreLeaderController::class, 'itemDelete'])->name('store-leader.items.delete');
     });
 });

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\KpiVariable;
+use App\Models\MenuVariant;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -42,6 +43,22 @@ class DatabaseSeeder extends Seeder
 
         foreach ($variables as $variable) {
             KpiVariable::query()->create($variable);
+        }
+
+        $menuVariants = [
+            'Es Kopi Susu Gula Aren',
+            'Americano',
+            'Cappuccino',
+            'Cafe Latte',
+            'Matcha Latte',
+            'Croissant Butter',
+        ];
+
+        foreach ($menuVariants as $variantName) {
+            MenuVariant::query()->create([
+                'name' => $variantName,
+                'is_active' => true,
+            ]);
         }
     }
 }

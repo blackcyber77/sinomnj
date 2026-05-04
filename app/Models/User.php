@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasMany(Payroll::class);
     }
 
+    public function salesDailySummaries(): HasMany
+    {
+        return $this->hasMany(SalesDailySummary::class);
+    }
+
     public function isOwner(): bool
     {
         return $this->role === 'owner';
