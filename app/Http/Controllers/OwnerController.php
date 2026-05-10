@@ -310,7 +310,7 @@ class OwnerController extends Controller
 
         $selectedMetrics = array_values(array_filter(
             array_unique($selectedMetrics),
-            fn (string $metric): bool => array_key_exists($metric, $availableMetrics)
+            fn ($metric): bool => is_string($metric) && array_key_exists($metric, $availableMetrics)
         ));
 
         if ($selectedMetrics === []) {
