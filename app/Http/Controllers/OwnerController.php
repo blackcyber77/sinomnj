@@ -110,6 +110,32 @@ class OwnerController extends Controller
         return back()->with('success', 'Staff berhasil diperbarui.');
     }
 
+    public function staffUpdateCredentials(Request $request, User $staff): RedirectResponse
+    {
+        abort_unless($staff->role === 'staff', 404);
+
+        $data = $request->validate([
+            'email' => ['required', 'email', 'unique:users,email,'.$staff->id],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        $old = $staff->getOriginal();
+
+        $payload = [
+            'email' => $data['email'],
+        ];
+
+        if (! empty($data['password'])) {
+            $payload['password'] = $data['password'];
+        }
+
+        $staff->update($payload);
+
+        AuditLogger::log('staff.credentials.updated', 'User', $staff->id, $old, $staff->fresh()->getAttributes());
+
+        return back()->with('success', 'Email/password staff berhasil diperbarui.');
+    }
+
     public function staffDelete(User $staff): RedirectResponse
     {
         abort_unless($staff->role === 'staff', 404);

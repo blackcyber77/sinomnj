@@ -28,7 +28,7 @@
     <h3>Daftar Staff</h3>
     <div class="table-wrap">
         <table>
-            <thead><tr><th>Nama</th><th>Email</th><th>Rate</th><th>Status</th><th>Aksi</th></tr></thead>
+            <thead><tr><th>Nama</th><th>Email</th><th>Rate</th><th>Status</th><th>Kredensial</th><th>Aksi</th></tr></thead>
             <tbody>
             @foreach($staffs as $staff)
                 <tr>
@@ -36,6 +36,25 @@
                     <td>{{ $staff->email }}</td>
                     <td>Rp {{ number_format($staff->daily_rate, 0, ',', '.') }}</td>
                     <td>{{ $staff->is_active ? 'Aktif' : 'Nonaktif' }}</td>
+                    <td>
+                        <details>
+                            <summary class="btn btn-sm">Ubah Email/Password</summary>
+                            <form method="post" action="{{ route('owner.staff.credentials', $staff) }}" class="grid" style="margin-top:.6rem;min-width:240px;">
+                                @csrf
+                                @method('patch')
+                                <label>Email Baru
+                                    <input type="email" name="email" value="{{ $staff->email }}" required>
+                                </label>
+                                <label>Password Baru (opsional)
+                                    <input type="password" name="password" placeholder="Minimal 6 karakter">
+                                </label>
+                                <label>Konfirmasi Password
+                                    <input type="password" name="password_confirmation" placeholder="Ulangi password baru">
+                                </label>
+                                <button class="btn btn-main btn-sm" type="submit">Simpan Kredensial</button>
+                            </form>
+                        </details>
+                    </td>
                     <td>
                         <form method="post" action="{{ route('owner.staff.delete', $staff) }}" onsubmit="return confirm('Hapus staff ini?')">
                             @csrf @method('delete')

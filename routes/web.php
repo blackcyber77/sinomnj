@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/staff', [OwnerController::class, 'staffIndex'])->name('staff.index');
         Route::post('/staff', [OwnerController::class, 'staffStore'])->name('staff.store');
         Route::put('/staff/{staff}', [OwnerController::class, 'staffUpdate'])->name('staff.update');
+        Route::patch('/staff/{staff}/credentials', [OwnerController::class, 'staffUpdateCredentials'])->name('staff.credentials');
         Route::delete('/staff/{staff}', [OwnerController::class, 'staffDelete'])->name('staff.delete');
 
         Route::get('/kpi-variables', [OwnerController::class, 'kpiIndex'])->name('kpi.index');
